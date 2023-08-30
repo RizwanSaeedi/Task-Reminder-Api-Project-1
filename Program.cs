@@ -9,6 +9,18 @@ namespace Task_Reminder_Api_Project_1
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Add CORS policy
+            builder.Services.AddCors(options =>
+            {
+                var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection") ?? throw new InvalidOperationException("Connection string 'Task_Reminder_Api_Project_1Context' not found.")));
 
